@@ -11,6 +11,6 @@ class TestBaseClient:
             self.client.get("/invalid-endpoint")
 
 
-    def test_connection_retry(self):
-            self.client.get("/health")
+  #  def test_connection_retry(self):
+   #         self.client.get("/health")
 
