@@ -33,6 +33,16 @@ pipeline {
             }
         }
 
+        stage('Prepare Runtime Directories') {
+
+              steps {
+
+                  sh 'mkdir -p reports/allure-results'
+
+                  sh 'mkdir -p logs'
+              }
+         }
+
         stage('Run Smoke Tests') {
 
             steps {
@@ -63,7 +73,12 @@ pipeline {
         always {
              
              archiveArtifacts(
-                  artifacts: '**/*',
+                  artifacts: 'logs/**/*',
+                  fingerprint: true
+             )
+
+            archiveArtifacts(
+                  artifacts: 'reports/**/*',
                   fingerprint: true
              )
         }
