@@ -1,0 +1,86 @@
+pipeline {
+
+    agent any
+
+    environment {
+
+        PYTHON_ENV = 'venv'
+    }
+
+    stages {
+
+        stage('Checkout Source Code') {
+
+            steps {
+
+                checkout scm
+            }
+        }
+
+        stage('Create Virtual Environment') {
+
+            steps {
+
+                sh 'python3 -m venv ${PYTHON_ENV}'
+            }
+        }
+
+        stage('Install Dependencies') {
+
+            steps {
+
+                sh '. ${PYTHON_ENV}/bin/activate && pip install -r requirements.txt'
+            }
+        }
+
+        stage('Run Smoke Tests') {
+
+            steps {
+
+                sh '''
+                . ${PYTHON_ENV}/bin/activate &&
+                pytest -m smoke \
+                --alluredir=reports/allure-results
+                '''
+            }
+        }
+
+        stage('Run Resiliency Tests') {
+
+            steps {
+
+                sh '''
+                . ${PYTHON_ENV}/bin/activate &&
+                pytest -m resiliency \
+                --alluredir=reports/allure-results
+                '''
+            }
+        }
+    }
+
+    post {
+
+        always {
+
+            archiveArtifacts(
+                artifacts: 'logs/*.log',
+                fingerprint: true
+            )
+
+            archiveArtifacts(
+                artifacts: 'reports/**/*',
+                fingerprint: true
+            )
+        }
+
+        success {
+
+            echo 'Pipeline executed successfully'
+        }
+
+        failure {
+
+            echo 'Pipeline execution failed'
+        }
+    }
+}
