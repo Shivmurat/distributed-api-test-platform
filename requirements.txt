@@ -1,0 +1,7 @@
+pytest
+requests
+pyyaml
+jsonschema
+allure-pytest
+pytest-xdist
+tenacity

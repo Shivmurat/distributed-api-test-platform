@@ -1,0 +1,12 @@
+base_url: "https://httpbin.org"
+#base_url: "http://localhost:5001"
+
+
+timeout: 30
+
+retry_count: 3
+
+log_level: "INFO"
+
+headers:
+  Content-Type: "application/json"
