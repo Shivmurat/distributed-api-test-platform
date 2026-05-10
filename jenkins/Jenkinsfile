@@ -72,15 +72,22 @@ pipeline {
 
         always {
              
-             archiveArtifacts(
+            archiveArtifacts(
                   artifacts: 'logs/**/*',
                   fingerprint: true
-             )
+            )
 
             archiveArtifacts(
                   artifacts: 'reports/**/*',
                   fingerprint: true
-             )
+            )
+
+            allure(
+                  includeProperties: false,
+                  jdk: '',
+                  results: [[path: 'reports/allure-results']]
+            )
+
         }
 
         success {
