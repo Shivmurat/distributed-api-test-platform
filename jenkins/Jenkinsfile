@@ -88,6 +88,8 @@ pipeline {
                   results: [[path: 'reports/allure-results']]
             )
 
+            cleanWs()
+
         }
 
         success {
