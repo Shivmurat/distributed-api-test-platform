@@ -1,7 +1,4 @@
 import json
-from asyncio import timeout
-from http.client import responses
-
 import requests
 
 from config.config_loader import ConfigLoader
