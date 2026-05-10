@@ -277,9 +277,161 @@ Used for:
 
 ---
 
-# Future Enhancements
+Add the following sections to your existing `README.md`.
 
-* Dockerized execution
+---
+
+# Dockerized Execution
+
+The framework supports containerized execution for:
+
+* reproducible environments
+* CI/CD portability
+* scalable distributed execution
+* cloud-native test orchestration
+
+---
+
+# Docker Project Structure
+
+```text id="’winj7s"
+docker/
+└── Dockerfile
+```
+
+---
+
+# Dockerfile Overview
+
+The Docker image:
+
+* installs framework dependencies
+* copies framework source code
+* executes PyTest suites inside isolated containers
+
+Example Dockerfile:
+
+```dockerfile id="’winj7t"
+FROM python:3.11-slim
+
+WORKDIR /app
+
+COPY . /app
+
+RUN pip install --upgrade pip
+
+RUN pip install -r requirements.txt
+
+CMD ["pytest", "-m", "smoke"]
+```
+
+---
+
+# Docker Ignore Optimization
+
+The framework uses:
+
+```text id="’winj7u"
+.dockerignore
+```
+
+to optimize Docker build context and reduce unnecessary image size.
+
+Example:
+
+```dockerignore id="’winj7v"
+venv/
+.venv/
+
+__pycache__/
+.pytest_cache/
+
+logs/
+reports/
+
+.git/
+.idea/
+.vscode/
+
+allure-results/
+allure-report/
+```
+
+---
+
+# Build Docker Image
+
+From project root:
+
+```bash id="’winj7w"
+docker build \
+-t distributed-api-framework \
+-f docker/Dockerfile .
+```
+
+---
+
+# Run Docker Container
+
+```bash id="’winj7x"
+docker run distributed-api-framework
+```
+
+---
+
+# Dockerized Test Execution
+
+The framework supports execution of:
+
+* smoke suites
+* resiliency suites
+* regression suites
+
+through containerized runtime environments.
+
+---
+
+# Multiple Dockerfile Strategy
+
+The framework architecture supports multiple Dockerfiles for specialized execution use cases.
+
+Example:
+
+```text id="’winj7y"
+docker/
+├── Dockerfile
+├── Dockerfile.dev
+├── Dockerfile.jenkins
+├── Dockerfile.smoke
+└── Dockerfile.resiliency
+```
+
+---
+
+# Docker Build With Custom Dockerfile
+
+Example:
+
+```bash id="’winj7z"
+docker build \
+-t distributed-api-framework-smoke \
+-f docker/Dockerfile.smoke .
+```
+
+---
+
+# Containerization Benefits
+
+Containerized execution provides:
+
+* isolated runtime environments
+* reproducible CI/CD execution
+* scalable distributed runners
+* environment consistency
+* simplified dependency management
+
+---
+# Future Enhancements
 * Kubernetes-based distributed runners
 * Parallel execution support
 * OAuth2 integration
